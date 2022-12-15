@@ -21,17 +21,93 @@ if (promedioFinal < 7){
 }else {
     alert("felicitaciones, estás aprobado");
 }
-let usuario = prompt("ingrese su usuario: (luego de escribir el nombre de usuario ingrese: salir)");
-while (usuario != "salir"){
-    console.log(usuario);
-    usuario= prompt("ingrese su usuario: (luego de escribir el nombre de usuario ingrese: salir)");
-}
-let contraseniaUsuario = parseInt(prompt("ingrese su contraseña del aula virtual;"));
-const contraseniaDelUsuario = 1234;
-for(let i = 0; i < 2; i ++){
-    if (contraseniaUsuario === contraseniaDelUsuario){
-        console.log("contraseña válida");
-        break;
+    class Usuario {
+        constructor(nombre, cuenta) {
+            this.nombre = nombre;
+            this.cuenta = cuenta;
+        }
     }
-    else contraseniaUsuario = parseInt(prompt("contraseña inválida, vuelve a intentarlo"));
+    
+    const usuario1 = new Usuario ("Dalila", 1111);
+    const usuario2 = new Usuario ("Pablo", 2222);
+    const usuario3 = new Usuario ("Paulo", 3333);
+    const usuario4 = new Usuario ("Diego", 4444);
+    
+    const arrayUsuario = [];
+    
+    arrayUsuario.push(usuario1);
+    arrayUsuario.push(usuario2);
+    arrayUsuario.push(usuario3);
+    arrayUsuario.push(usuario4);
+    
+    console.log(arrayUsuario);
+    
+    
+    function menu() {
+        alert("Bienvenidos a nuestra aula virtual ")
+        let opcion = parseInt(prompt("Ingrese una opcion: \n\ 1) Crear cuenta de usuario \n\ 2) Dar de baja cuenta de usuario \n\ 3) Modificacion de datos \n\ 4) Consulta sobre fechas de recuperatorio \n\ 5) Salir"));
+        return opcion;
+    } 
+    
+    
+    function crearUsuario() {
+        let nombre = prompt("Elija su nombre de Usuario: ");
+        let cuenta = parseInt(prompt("Elija un numero de cuenta: "));
+        let usuario = new Usuario (nombre, cuenta);
+        arrayUsuario.push(usuario);
+        console.log(arrayUsuario);
+    }
+    
+    
+    function bajaUsuario() {
+        let cuenta = parseInt(prompt("Ingrese el numero de cuenta al que quiere dar de baja: "));
+        let usuario = arrayUsuario.find(usuario => usuario.cuenta === cuenta);
+        let indice = arrayUsuario.indexOf(usuario);
+        arrayUsuario.splice(indice, 1);
+        console.log(arrayUsuario);
+        alert("usuario eliminado!")
+    }
+    
+    function modificacionDatos(){
+            let cuenta = parseInt(prompt("Ingrese su numero de cuenta actual: "));
+            let usuario = arrayUsuario.find(usuario => usuario.cuenta === cuenta);
+            let indice = arrayUsuario.indexOf(usuario);
+            let nombre = prompt("Ingrese su nuevo nombre de usuario: ");
+            let usuarioModificado = new usuario(nombre, cuenta);
+            arrayUsuario.splice(indice, 1, usuarioModificado);
+            console.log(arrayUsuario);
+        }
+    
+    function consultaFecha(){
+           const numeros = [17, 5, 29, 16, 7];
+           numeros.sort((a,b) => a - b)
+           console.log("Las fechas de recuperatorio se realizarán el mes de abril a las 14hs y los dias son: ")
+           console.log(numeros);
+        }
+    
+    function Salir () {
+        alert("Gracias, vuelva pronto!")
+    }
+    
+    
+    let opcion = menu ()
+    switch (opcion) {
+        case 1:
+            crearUsuario();
+            break;
+        case 2:
+            bajaUsuario();
+            break;
+        case 3:
+            modificacionDatos();
+            break;
+        case 4: 
+            consultaFecha();
+            break;
+        case 5:
+            Salir();
+            break;
+        default:
+            alert("Opcion incorrecta!")
+            break;
     }
