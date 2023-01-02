@@ -26,3 +26,19 @@ h1{
     background-color: green;
     color: white;
 }
+.redes {
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row-reverse; }
+footer {
+        background-color: violet;
+        height: 80px;
+        margin: 10px;
+        flex-direction: column; }
+      
+footer a:hover {
+        font-weight: bold;
+        background-color: blue;
+        color: white; }
+      
