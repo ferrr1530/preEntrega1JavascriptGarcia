@@ -1,113 +1,159 @@
-let nombreAlumno = (prompt("ingrese su nombre:"));
-function saludarAlumno (nombreAlumno){
-    alert("hola " + nombreAlumno);
-}
-saludarAlumno(nombreAlumno);
-let materia = (prompt("ingrese el nombre de la materia a consultar:"));
-let primeraNota = parseInt(prompt("nota de su primer parcial"));
-let segundaNota = parseInt(prompt("nota de su segundo parcial"));
-let notaFinal = parseInt(prompt("nota de tu final"));
-
-function calcularPromedio(nota1, nota2, nota3) {
-    return (nota1 + nota2 + nota3) / 3;
+class Producto {
+    constructor(id, nombre, precio, img) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.img = img;
+        this.cantidad = 1; 
+    }
 }
 
-let promedioFinal = calcularPromedio(primeraNota, segundaNota, notaFinal);
+const assassinsCreed = new Producto(1, "Assassins Creed-The ezio collection", 10000, "img/Assassins creed-The ezio collection.jfif");
+const callOfDuty = new Producto(2, "Call of duty-Black ops", 5050, "img/Call of duty-Black ops.jfif");
+const daysGone = new Producto(3, "Days gone", 8500, "img/Days gone.jfif");
+const doomEternal = new Producto(4, "Doom eternal", 6500, "img/Doom eternal.jfif");
+const farCry5 = new Producto(5, "Far cry 5", 5000, "img/Farcry5.jfif");
+const godOfWar = new Producto(6, "God of war-Ragnarok", 7500, "img/God of war-Ragnarok.jfif");
+const mortalKombat11 = new Producto(7, "Mortal Kombat 11", 9000, "img/Mortal kombat 11.jfif");
+const theLastOfUs = new Producto(8, "The last of us-Parte 2", 12000, "img/The last of us-Part 2.jfif");
 
-console.log("su promedio final es de :" + promedioFinal);
+//Creamos un Array con todo nuestro catálogo de productos: 
 
-if (promedioFinal < 7){
-        alert("has reprobado, por favor ingresa tu usuario para ver las fechas de tu recuperatorio");
-}else {
-    alert("felicitaciones, estás aprobado");
+const productos = [assassinsCreed, callOfDuty, daysGone, doomEternal, farCry5, godOfWar, mortalKombat11, theLastOfUs];
+
+//Creamos el Array del Carrito. 
+
+let carrito = []; 
+
+/* CARGAR CARRITO DESDE EL LOCALSTORAGE */
+//Si hay algo en el localStorage, lo cargamos en el carrito. 
+if(localStorage.getItem("carrito")){
+    carrito = JSON.parse(localStorage.getItem("carrito"));
 }
-    class Usuario {
-        constructor(nombre, cuenta) {
-            this.nombre = nombre;
-            this.cuenta = cuenta;
-        }
+
+//Modificamos el DOM mostrando los productos: 
+
+const contenedorProductos = document.getElementById("contenedorProductos");
+
+//Creamos una función para mostrar los productos: 
+
+const mostrarProductos = () => {
+    productos.forEach( producto => {
+        const card = document.createElement("div");
+        card.classList.add("col-xl-3", "col-md-6", "col-xs-12");
+        card.innerHTML = `
+                <div class="card">
+                    <img src="${producto.img}" class="card-img-top imgProductos" alt="${producto.nombre}">
+                    <div class= "card-body">
+                        <h5>${producto.nombre}</h5>
+                        <p> ${producto.precio} </p>
+                        <button class="btn colorBoton" id="boton${producto.id}" > Agregar al Carrito </button>
+                    </div>
+                </div>
+                        `
+        contenedorProductos.appendChild(card);
+
+        //Agregar productos al carrito: 
+        const boton = document.getElementById(`boton${producto.id}`);
+        boton.addEventListener("click", () => {
+            agregarAlCarrito(producto.id);
+        })
+    })
+}
+
+mostrarProductos();
+
+//Creamos la función agregar al carrito: 
+
+const agregarAlCarrito = (id) => {
+    const productoEnCarrito = carrito.find(producto => producto.id === id);
+    if(productoEnCarrito) {
+        productoEnCarrito.cantidad++;
+    } else {
+        const producto = productos.find(producto => producto.id === id);
+        carrito.push(producto);
     }
-    
-    const usuario1 = new Usuario ("Dalila", 1111);
-    const usuario2 = new Usuario ("Pablo", 2222);
-    const usuario3 = new Usuario ("Paulo", 3333);
-    const usuario4 = new Usuario ("Diego", 4444);
-    
-    const arrayUsuario = [];
-    
-    arrayUsuario.push(usuario1);
-    arrayUsuario.push(usuario2);
-    arrayUsuario.push(usuario3);
-    arrayUsuario.push(usuario4);
-    
-    console.log(arrayUsuario);
-    
-    
-    function menu() {
-        alert("Bienvenidos a nuestra aula virtual ")
-        let opcion = parseInt(prompt("Ingrese una opcion: \n\ 1) Crear cuenta de usuario \n\ 2) Dar de baja cuenta de usuario \n\ 3) Modificacion de datos \n\ 4) Consulta sobre fechas de recuperatorio \n\ 5) Salir"));
-        return opcion;
-    } 
-    
-    
-    function crearUsuario() {
-        let nombre = prompt("Elija su nombre de Usuario: ");
-        let cuenta = parseInt(prompt("Elija un numero de cuenta: "));
-        let usuario = new Usuario (nombre, cuenta);
-        arrayUsuario.push(usuario);
-        console.log(arrayUsuario);
-    }
-    
-    
-    function bajaUsuario() {
-        let cuenta = parseInt(prompt("Ingrese el numero de cuenta al que quiere dar de baja: "));
-        let usuario = arrayUsuario.find(usuario => usuario.cuenta === cuenta);
-        let indice = arrayUsuario.indexOf(usuario);
-        arrayUsuario.splice(indice, 1);
-        console.log(arrayUsuario);
-        alert("usuario eliminado!")
-    }
-    
-    function modificacionDatos(){
-            let cuenta = parseInt(prompt("Ingrese su numero de cuenta actual: "));
-            let usuario = arrayUsuario.find(usuario => usuario.cuenta === cuenta);
-            let indice = arrayUsuario.indexOf(usuario);
-            let nombre = prompt("Ingrese su nuevo nombre de usuario: ");
-            let usuarioModificado = new usuario(nombre, cuenta);
-            arrayUsuario.splice(indice, 1, usuarioModificado);
-            console.log(arrayUsuario);
-        }
-    
-    function consultaFecha(){
-           const numeros = [17, 5, 29, 16, 7];
-           numeros.sort((a,b) => a - b)
-           console.log("Las fechas de recuperatorio se realizarán el mes de abril a las 14hs y los dias son: ")
-           console.log(numeros);
-        }
-    
-    function Salir () {
-        alert("Gracias, vuelva pronto!")
-    }
-    
-    
-    let opcion = menu ()
-    switch (opcion) {
-        case 1:
-            crearUsuario();
-            break;
-        case 2:
-            bajaUsuario();
-            break;
-        case 3:
-            modificacionDatos();
-            break;
-        case 4: 
-            consultaFecha();
-            break;
-        case 5:
-            Salir();
-            break;
-        default:
-            alert("Opcion incorrecta!")
-            break;
-    }
+    //Trabajamos con el localStorage: 
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    calcularTotal();
+}
+
+//Mostrar el carrito de compras: 
+
+const contenedorCarrito = document.getElementById("contenedorCarrito");
+const verCarrito = document.getElementById("verCarrito")
+
+verCarrito.addEventListener("click", () => {
+    mostrarCarrito();
+})
+
+//Función para mostrar el carrillo: 
+
+const mostrarCarrito = () => {
+    contenedorCarrito.innerHTML = "";
+
+    carrito.forEach(producto => {
+        const card = document.createElement("div");
+        card.classList.add("col-xl-3", "col-md-6", "col-xs-12");
+        card.innerHTML = `
+                <div class="card">
+                    <img src="${producto.img}" class="card-img-top imgProductos" alt="${producto.nombre}">
+                    <div class= "card-body">
+                        <h5>${producto.nombre}</h5>
+                        <p> ${producto.precio} </p>
+                        <p> ${producto.cantidad} </p>
+                        <button class="btn colorBoton" id="eliminar${producto.id}" > Eliminar Producto </button>
+                    </div>
+                </div>
+                        `
+        contenedorCarrito.appendChild(card);
+
+        //Eliminar productos del carrito: 
+        const boton = document.getElementById(`eliminar${producto.id}`);
+        boton.addEventListener("click", () => {
+            eliminarDelCarrito(producto.id);
+        })
+
+    })
+    calcularTotal();
+}
+
+//Función que elimina el producto del carrito: 
+
+const eliminarDelCarrito = (id) => {
+    const producto = carrito.find(producto => producto.id === id);
+    const indice = carrito.indexOf(producto);
+    carrito.splice(indice, 1);
+    mostrarCarrito();
+
+    //Trabajamos con el localStorage: 
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+//Vaciamos todo el carrito de compras. 
+
+const vaciarCarrito = document.getElementById("vaciarCarrito");
+
+vaciarCarrito.addEventListener("click", () => {
+    eliminarTodoElCarrito();
+})
+const eliminarTodoElCarrito = () => {
+    carrito = [];
+    mostrarCarrito();
+
+    //LocalStorage:
+    localStorage.clear();
+}
+
+//Mostramos mensaje con el total de la compra
+
+const total = document.getElementById("total");
+
+const calcularTotal = () => {
+    let totalCompra = 0;
+    carrito.forEach(producto => {
+        totalCompra += producto.precio * producto.cantidad;
+        //+= es igual a poner totalCompra = totalCompra + producto.precio * producto.cantidad
+    })
+    total.innerHTML = `Total: $${totalCompra}`;
+}
