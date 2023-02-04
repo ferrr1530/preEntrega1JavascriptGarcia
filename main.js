@@ -75,7 +75,7 @@ verCarrito.addEventListener("click", () => {
 const mostrarCarrito = () => {
     contenedorCarrito.innerHTML = "";
 
-    carrito.forEach(producto => {
+carrito.forEach(producto => {
         const card = document.createElement("div");
         card.classList.add("col-xl-3", "col-md-6", "col-xs-12");
         card.innerHTML = `
@@ -121,6 +121,17 @@ const eliminarTodoElCarrito = () => {
     localStorage.clear();
 }
 
+const comprarProductos = document.getElementById("comprarProductos")
+comprarProductos.addEventListener("click", () => {
+    Swal.fire({
+        title:"Su compra ha sido realizada",
+        text:"Gracias por su compra!!! 😁",
+        icon:"success",
+        imageUrl:"https://fotografias.flooxernow.com/clipping/cmsimages02/2022/12/20/390C1D91-69A4-4B94-B4D7-B7A3C732E3C1/esta-foto-record-messi-pero-tambien-mola_98.jpg?crop=1920,1080,x0,y131&width=1900&height=1069&optimize=high&format=webply",
+        confirmButtonText:"Aceptar",
+    })
+})
+
 const total = document.getElementById("total");
 
 const calcularTotal = () => {
@@ -130,3 +141,24 @@ const calcularTotal = () => {
     })
     total.innerHTML = `Total: $${totalCompra}`;
 }
+
+const criptoYa = "https://criptoya.com/api/dolar";
+
+const precioDolar = document.getElementById("precioDolar");
+
+setInterval( () => {
+    fetch(criptoYa)
+     .then ( response => response.json())
+     .then (({blue, ccb, ccl, mep, oficial, solidario}) =>{
+        precioDolar.innerHTML = `
+        <h4>Tipos de dolar</h4>
+        <p>Dolar Oficial: ${oficial} </p>
+        <p>Dolar Solidario: ${solidario} </p>
+        <p>Dolar MEP: ${mep} </p>
+        <p>Dolar CCL: ${ccl} </p>
+        <p>Dolar CCB: ${ccb} </p>
+        <p>Dolar Blue: ${blue} </p>
+        `
+     })
+     .catch(error => console.error(error))
+},5000)
